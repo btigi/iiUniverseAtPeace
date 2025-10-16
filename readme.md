@@ -6,8 +6,12 @@ The library supports:
 
 | Name                         | Read | Write | Comment |
 |------------------------------|:----:|-------|:--------|
+| ABD                          | ✗   |   ✗   |
+| ALA                          | ✗   |   ✗   |
+| ALO                          | ✗   |   ✗   |
 | DAT                          | ✗   |   ✗   |
-| MEG                          | ✔   |   ✗   | 
+| MEG                          | ✔   |   ✔   | 
+| TED                          | ✗   |   ✗   |
 
 
 ## Usage
