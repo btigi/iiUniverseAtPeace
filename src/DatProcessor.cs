@@ -54,5 +54,48 @@
 
             return result;
         }
+
+        public void Write(string filename, DatFile datFile)
+        {
+            using var fileStream = File.Create(filename);
+            using var writer = new BinaryWriter(fileStream);
+
+            var count = (uint)datFile.Entries.Count;
+            writer.Write(count);
+
+            var entries = new List<DatEntry>();
+            foreach (var (key, value) in datFile.Entries)
+            {
+                var keyBytes = System.Text.Encoding.ASCII.GetBytes(key);
+                var valueBytes = System.Text.Encoding.Unicode.GetBytes(value);
+
+                var entry = new DatEntry
+                {
+                    CRC = CrcHelper.CalculateCRC32(keyBytes),
+                    TextLength = valueBytes.Length / 2,
+                    KeyLength = keyBytes.Length
+                };
+                entries.Add(entry);
+            }
+
+            foreach (var entry in entries)
+            {
+                writer.Write(entry.CRC);
+                writer.Write(entry.TextLength);
+                writer.Write(entry.KeyLength);
+            }
+
+            foreach (var (key, value) in datFile.Entries)
+            {
+                var valueBytes = System.Text.Encoding.Unicode.GetBytes(value);
+                writer.Write(valueBytes);
+            }
+
+            foreach (var (key, value) in datFile.Entries)
+            {
+                var keyBytes = System.Text.Encoding.ASCII.GetBytes(key);
+                writer.Write(keyBytes);
+            }
+        }
     }
 }

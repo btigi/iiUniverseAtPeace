@@ -6,10 +6,10 @@ The library supports:
 
 | Name                         | Read | Write | Comment |
 |------------------------------|:----:|-------|:--------|
-| ABD                          | ✗   |   ✗   |
+| ABD                          | ✗   |   ✗   | Plain text
 | ALA                          | ✗   |   ✗   |
 | ALO                          | ✗   |   ✗   |
-| DAT                          | ✗   |   ✗   |
+| DAT                          | ✔   |   ✔   |
 | MEG                          | ✔   |   ✔   | 
 | TED                          | ✗   |   ✗   |
 
@@ -19,6 +19,11 @@ The library supports:
 Instantiate the relevant class and call the `Process` method passing the filename.
 
 ```csharp
+var datProcessor = new DatProcessor();
+var datEntries = datProcessor.Read(@"D:\SteamLibrary\steamapps\common\Universe at War Earth Assault\Data\Text\CreditsText_ENGLISH.DAT");
+datProcessor.Write(@"D:\SteamLibrary\steamapps\common\Universe at War Earth Assault\Data\Text\CreditsText_ENGLISH.NEW", datEntries);
+
+
 var megProcessor = new MegProcessor();
 var files = megProcessor.Process("D:\\SteamLibrary\\steamapps\\common\\Universe at War Earth Assault\\Data\\Patch.meg");
 
