@@ -90,7 +90,7 @@
                 var file = files[i];
                 var filenameIndex = filenameIndexMap[file.filename];
 
-                writer.Write(CalculateCRC32(file.bytes));    // CRC32
+                writer.Write(CrcHelper.CalculateCRC32(file.bytes));    // CRC32
                 writer.Write((uint)i);                       // FileIndex
                 writer.Write((uint)file.bytes.Length);       // FileSize
                 writer.Write(currentOffset);                 // FileOffset
@@ -103,25 +103,6 @@
             {
                 writer.Write(file.bytes);
             }
-        }
-
-        private uint CalculateCRC32(byte[] data)
-        {
-            uint crc = 0xFFFFFFFF;
-
-            foreach (byte b in data)
-            {
-                crc ^= b;
-                for (int i = 0; i < 8; i++)
-                {
-                    if ((crc & 1) != 0)
-                        crc = (crc >> 1) ^ 0xEDB88320;
-                    else
-                        crc >>= 1;
-                }
-            }
-
-            return ~crc;
         }
     }
 }
